@@ -1,0 +1,65 @@
+<template>
+  <el-card class="box-card" v-loading="loading">
+    <h1>Hello {{ detail.name }}</h1>
+  </el-card>
+
+  <el-card class="box-card" style="padding-top: 30px">
+    <el-table v-loading="set_loading" :data="set" stripe style="width: 100%">
+      <el-table-column prop="id" label="ID" width="120"> </el-table-column>
+      <el-table-column prop="name" label="Name" min-width="180">
+        <template #default="scope">
+          <router-link :to="{ name: 'set', params: { id: scope.row.id } }">
+            {{ scope.row.name }}
+          </router-link>
+        </template>
+      </el-table-column>
+      <el-table-column prop="source" label="Source" width="180">
+      </el-table-column>
+      <el-table-column prop="person" label="Pros." width="180">
+      </el-table-column>
+      <el-table-column prop="problem" label="Prob." width="180">
+      </el-table-column>
+    </el-table>
+  </el-card>
+</template>
+
+<script lang="ts">
+import { defineComponent } from "vue";
+import Axios from "axios";
+
+export default defineComponent({
+  name: "GroupDetail",
+  data() {
+    return {
+      loading: true,
+      set_loading: true,
+      id: Number(this.$route.params.id),
+      detail: {
+        name: "",
+      },
+      set: [],
+    };
+  },
+  created() {
+    this.fetchDetail();
+    this.fetchSet();
+  },
+  methods: {
+    async fetchDetail() {
+      this.loading = true;
+      const resp = await Axios.get(`http://127.0.0.1:8000/group/${this.id}`);
+      this.detail = resp.data;
+      document.title = this.detail.name + " - StepByStep";
+      this.loading = false;
+    },
+    async fetchSet() {
+      this.set_loading = true;
+      const resp = await Axios.get(
+        `http://127.0.0.1:8000/group/${this.id}/set`
+      );
+      this.set = resp.data;
+      this.set_loading = false;
+    },
+  },
+});
+</script>
