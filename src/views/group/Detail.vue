@@ -15,9 +15,9 @@
       </el-table-column>
       <el-table-column prop="source" label="Source" width="180">
       </el-table-column>
-      <el-table-column prop="person" label="Pros." width="180">
+      <el-table-column prop="userCount" label="Users" width="180">
       </el-table-column>
-      <el-table-column prop="problem" label="Prob." width="180">
+      <el-table-column prop="problemCount" label="Prob." width="180">
       </el-table-column>
     </el-table>
   </el-card>
@@ -55,7 +55,7 @@ export default defineComponent({
     async fetchSet() {
       this.set_loading = true;
       const resp = await Axios.get(
-        `http://127.0.0.1:8000/group/${this.id}/set`
+        `http://127.0.0.1:8000/group/${this.id}/steps`
       );
       this.set = resp.data;
       this.set_loading = false;

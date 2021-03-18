@@ -43,21 +43,21 @@
         left: '360px',
       }"
     >
-      <table :style="{ width: 120 * persons.length + 'px' }">
+      <table :style="{ width: 120 * users.length + 'px' }">
         <thead>
           <tr style="height: 80px">
-            <th v-for="(person, idx) in persons" :key="idx">
-              {{ person.name }}
+            <th v-for="(user, idx) in users" :key="idx">
+              {{ user.username }}
               <br />
               <p>
-                {{ person.passed }}
+                {{ user.passed }}
                 / {{ problems.length }}
               </p>
               <el-progress
                 :text-inside="true"
                 :stroke-width="20"
                 :percentage="
-                  ((person.passed / problems.length) * 100).toFixed(2)
+                  Number(((user.passed / problems.length) * 100).toFixed(2))
                 "
                 :color="customColor"
                 style="width: 80%; padding-left: 10%; padding-right: 10%"
@@ -87,13 +87,26 @@
       <table>
         <tbody>
           <tr v-for="(i, idx) in problems" :key="idx">
-            <td v-if="i.ZX" :rowspan="i.ZX_len" class="problem-manyrow">
-              <span>{{ i.ZX }}</span>
+            <td
+              v-if="i.project"
+              :rowspan="i.project_len"
+              class="problem-manyrow"
+            >
+              <span>{{ i.project }}</span>
             </td>
-            <td v-if="i.ZT" :rowspan="i.ZT_len" class="problem-manyrow">
-              <span>{{ i.ZT }}</span>
+            <td v-if="i.topic" :rowspan="i.topic_len" class="problem-manyrow">
+              <span>{{ i.topic }}</span>
             </td>
-            <td>{{ i.problem }}</td>
+            <td>
+              <el-tooltip
+                class="item"
+                effect="dark"
+                :content="i.title"
+                placement="right"
+              >
+                <a :href="i.link" target="_blank">{{ i.problem }}</a>
+              </el-tooltip>
+            </td>
           </tr>
         </tbody>
       </table>
@@ -112,16 +125,16 @@
         left: '360px',
       }"
     >
-      <table :style="{ width: 120 * persons.length + 'px' }">
+      <table :style="{ width: 120 * users.length + 'px' }">
         <tbody>
           <tr v-for="(problem, idx) in problems" :key="idx">
             <td
-              v-for="(person, jdx) in persons"
+              v-for="(user, jdx) in users"
               :key="jdx"
-              :class="solutionClass(person.solutions[problem.problem])"
+              :class="solutionClass(user.solutions[problem.problem])"
             >
-              <template v-if="person.solutions[problem.problem]">
-                {{ person.solutions[problem.problem].date }}
+              <template v-if="user.solutions[problem.problem]">
+                {{ user.solutions[problem.problem].date }}
               </template>
             </td>
           </tr>
@@ -139,13 +152,14 @@ import throttle from "lodash/throttle";
 export default defineComponent({
   name: "SetDetail",
   data() {
-    const persons: any = [];
+    const users: any = [];
+    const problems: any = [];
     return {
       loading: true,
       id: Number(this.$route.params.id),
-      problems: [],
+      problems,
       name: "",
-      persons,
+      users,
       tableSync: (event: any) => {},
       tableWidth: 0,
       tableHeight: 0,
@@ -214,13 +228,32 @@ export default defineComponent({
     },
     async fetchSet() {
       this.loading = true;
-      const resp = await Axios.get(`http://127.0.0.1:8000/set/${this.id}`);
+      const resp = await Axios.get(`http://127.0.0.1:8000/step/${this.id}`);
       this.problems = resp.data.problems;
-      this.persons = resp.data.persons;
-      for (const person of this.persons) {
-        person.passed = Object.values(person.solutions).filter(
+      this.users = resp.data.users;
+      // 计算每个人通过的题目数量
+      for (const user of this.users) {
+        user.passed = Object.values(user.solutions).filter(
           (solution: any) => solution.result === "Accepted"
         ).length;
+      }
+      // 计算专题专项需要占几行
+      let topic_len = 1;
+      let project_len = 1;
+      for (let i = this.problems.length - 1; i >= 0; i--) {
+        const problem = this.problems[i];
+        if (problem.topic === null) {
+          topic_len++;
+        } else {
+          problem.topic_len = topic_len;
+          topic_len = 1;
+        }
+        if (problem.project === null) {
+          project_len++;
+        } else {
+          problem.project_len = project_len;
+          project_len = 1;
+        }
       }
       this.name = resp.data.name;
       document.title = this.name + " - StepByStep";
