@@ -131,10 +131,10 @@
             <td
               v-for="(user, jdx) in users"
               :key="jdx"
-              :class="solutionClass(user.solutions[problem.problem])"
+              :class="solutionClass(user.solutions[problem.id])"
             >
-              <template v-if="user.solutions[problem.problem]">
-                {{ user.solutions[problem.problem].date }}
+              <template v-if="user.solutions[problem.id]">
+                {{ user.solutions[problem.id].date }}
               </template>
             </td>
           </tr>
