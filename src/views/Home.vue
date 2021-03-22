@@ -1,5 +1,5 @@
 <template>
-  <el-card class="box-card"> 我是首页 </el-card>
+  <el-card class="box-card">这里什么都没有</el-card>
 </template>
 
 <script lang="ts">

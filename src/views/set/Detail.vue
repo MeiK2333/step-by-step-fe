@@ -45,10 +45,16 @@
     >
       <table :style="{ width: 120 * users.length + 'px' }">
         <thead>
-          <tr style="height: 80px">
+          <tr style="height: 80px; font-size: 12px">
             <th v-for="(user, idx) in users" :key="idx">
-              {{ user.username }}
-              <br />
+              <router-link
+                :to="{ name: 'user', params: { username: user.username } }"
+              >
+                {{ user.class }}
+                <br />
+                {{ user.nickname }}
+                <br />
+              </router-link>
               <p>
                 {{ user.passed }}
                 / {{ problems.length }}

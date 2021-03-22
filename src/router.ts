@@ -3,6 +3,7 @@ import Home from "./views/Home.vue";
 import Groups from './views/group/Groups.vue';
 import GroupDetail from './views/group/Detail.vue';
 import SetDetail from './views/set/Detail.vue';
+import UserDetail from './views/user/Detail.vue';
 import About from "./views/About.vue";
 
 const routes = [
@@ -29,6 +30,12 @@ const routes = [
     name: "set",
     component: SetDetail,
     meta: { title: "Set" }
+  },
+  {
+    path: "/user/:username",
+    name: "user",
+    component: UserDetail,
+    meta: { title: "User" }
   },
   {
     path: "/about",
