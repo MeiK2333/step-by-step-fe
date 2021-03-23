@@ -53,7 +53,6 @@ export default defineComponent({
       this.loading = false;
     },
     async fetchSet() {
-      console.log(import.meta.env.BASE_URL)
       this.set_loading = true;
       const resp = await Axios.get(
         `/api/group/${this.id}/steps`
