@@ -71,7 +71,7 @@ export default defineComponent({
     async fetchUserDetail() {
       this.loading = true;
       const resp = await Axios.get(
-        `http://127.0.0.1:8000/user/${this.username}`
+        `/api/user/${this.username}`
       );
       this.detail = resp.data;
       this.loading = false;

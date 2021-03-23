@@ -32,7 +32,7 @@ export default defineComponent({
   methods: {
     async fetchGroups() {
       this.loading = true;
-      const resp = await Axios.get("http://127.0.0.1:8000/groups");
+      const resp = await Axios.get("/api/groups");
       this.groupList = resp.data;
       this.loading = false;
     },

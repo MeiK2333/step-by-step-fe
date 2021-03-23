@@ -47,15 +47,16 @@ export default defineComponent({
   methods: {
     async fetchDetail() {
       this.loading = true;
-      const resp = await Axios.get(`http://127.0.0.1:8000/group/${this.id}`);
+      const resp = await Axios.get(`/api/group/${this.id}`);
       this.detail = resp.data;
       document.title = this.detail.name + " - StepByStep";
       this.loading = false;
     },
     async fetchSet() {
+      console.log(import.meta.env.BASE_URL)
       this.set_loading = true;
       const resp = await Axios.get(
-        `http://127.0.0.1:8000/group/${this.id}/steps`
+        `/api/group/${this.id}/steps`
       );
       this.set = resp.data;
       this.set_loading = false;
