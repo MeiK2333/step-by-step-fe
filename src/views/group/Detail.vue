@@ -25,7 +25,7 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import Axios from "axios";
+import request from "../../request";
 
 export default defineComponent({
   name: "GroupDetail",
@@ -47,16 +47,14 @@ export default defineComponent({
   methods: {
     async fetchDetail() {
       this.loading = true;
-      const resp = await Axios.get(`/api/group/${this.id}`);
+      const resp = await request.get(`/group/${this.id}`);
       this.detail = resp.data;
       document.title = this.detail.name + " - StepByStep";
       this.loading = false;
     },
     async fetchSet() {
       this.set_loading = true;
-      const resp = await Axios.get(
-        `/api/group/${this.id}/steps`
-      );
+      const resp = await request.get(`/group/${this.id}/steps`);
       this.set = resp.data;
       this.set_loading = false;
     },

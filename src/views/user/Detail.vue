@@ -52,7 +52,7 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import Axios from "axios";
+import request from "../../request";
 
 export default defineComponent({
   name: "UserDetail",
@@ -70,9 +70,7 @@ export default defineComponent({
   methods: {
     async fetchUserDetail() {
       this.loading = true;
-      const resp = await Axios.get(
-        `/api/user/${this.username}`
-      );
+      const resp = await request.get(`/user/${this.username}`);
       this.detail = resp.data;
       this.loading = false;
     },

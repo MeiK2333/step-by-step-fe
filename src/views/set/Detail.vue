@@ -152,7 +152,7 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import Axios from "axios";
+import request from '../../request';
 import throttle from "lodash/throttle";
 
 export default defineComponent({
@@ -234,7 +234,7 @@ export default defineComponent({
     },
     async fetchSet() {
       this.loading = true;
-      const resp = await Axios.get(`/api/step/${this.id}`);
+      const resp = await request.get(`/step/${this.id}`);
       this.problems = resp.data.problems;
       this.users = resp.data.users;
       // 计算每个人通过的题目数量

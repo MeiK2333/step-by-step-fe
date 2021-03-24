@@ -16,7 +16,7 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import Axios from "axios";
+import request from '../../request';
 
 export default defineComponent({
   name: "Groups",
@@ -32,7 +32,7 @@ export default defineComponent({
   methods: {
     async fetchGroups() {
       this.loading = true;
-      const resp = await Axios.get("/api/groups");
+      const resp = await request.get("/groups");
       this.groupList = resp.data;
       this.loading = false;
     },

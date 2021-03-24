@@ -5,6 +5,9 @@ import GroupDetail from './views/group/Detail.vue';
 import SetDetail from './views/set/Detail.vue';
 import UserDetail from './views/user/Detail.vue';
 import About from "./views/About.vue";
+import AdminImport from './views/admin/Import.vue';
+import Login from './views/user/Login.vue';
+import store from './store';
 
 const routes = [
   {
@@ -38,10 +41,22 @@ const routes = [
     meta: { title: "User" }
   },
   {
+    path: '/login',
+    name: 'login',
+    component: Login,
+    meta: { title: 'Login' }
+  },
+  {
     path: "/about",
     name: "about",
     component: About,
     meta: { title: "About" }
+  },
+  {
+    path: "/admin/import",
+    name: "admin_import",
+    component: AdminImport,
+    meta: { title: "Import" }
   },
 ];
 

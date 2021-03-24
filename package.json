@@ -9,11 +9,16 @@
   "dependencies": {
     "axios": "^0.21.1",
     "element-plus": "^1.0.2-beta.35",
+    "js-cookie": "^2.2.1",
     "lodash.throttle": "^4.1.1",
     "vue": "^3.0.5",
-    "vue-router": "^4.0.5"
+    "vue-router": "^4.0.5",
+    "vuex": "^4.0.0",
+    "xlsx": "^0.16.9"
   },
   "devDependencies": {
+    "@types/cookies": "^0.7.6",
+    "@types/js-cookie": "^2.2.6",
     "@types/lodash": "^4.14.168",
     "@vitejs/plugin-vue": "^1.1.5",
     "@vue/compiler-sfc": "^3.0.5",

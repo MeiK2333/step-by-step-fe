@@ -5,6 +5,7 @@
         <router-link to="/">StepByStep</router-link>
         <router-link :to="{ name: 'groups', params: {} }">Groups</router-link>
         <router-link :to="{ name: 'about', params: {} }">About</router-link>
+        <router-link v-if="$store.logged" :to="{ name: 'admin_import', params: {} }">Import</router-link>
       </div>
     </el-header>
 
