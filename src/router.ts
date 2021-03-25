@@ -5,7 +5,10 @@ import GroupDetail from './views/group/Detail.vue';
 import SetDetail from './views/set/Detail.vue';
 import UserDetail from './views/user/Detail.vue';
 import About from "./views/About.vue";
+import Admin from './views/admin/Admin.vue';
+import AdminHome from './views/admin/Home.vue';
 import AdminImport from './views/admin/Import.vue';
+import AdminGroup from './views/admin/Group.vue';
 import Login from './views/user/Login.vue';
 import store from './store';
 
@@ -53,10 +56,25 @@ const routes = [
     meta: { title: "About" }
   },
   {
-    path: "/admin/import",
-    name: "admin_import",
-    component: AdminImport,
-    meta: { title: "Import" }
+    path: "/admin",
+    name: "admin",
+    component: Admin,
+    meta: { title: "Admin" },
+    children: [
+      { path: '', name: 'admin_home', component: AdminHome },
+      {
+        path: "group",
+        name: "admin_group",
+        component: AdminGroup,
+        meta: { title: "Group" }
+      },
+      {
+        path: "import",
+        name: "admin_import",
+        component: AdminImport,
+        meta: { title: "Import" }
+      },
+    ]
   },
 ];
 

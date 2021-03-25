@@ -1,6 +1,7 @@
 <template>
   <el-card class="box-card"
-    ><el-alert v-if="error" :title="error" type="error" effect="dark"> </el-alert>
+    ><el-alert v-if="error" :title="error" type="error" effect="dark">
+    </el-alert>
     从远程服务器获取登录状态中，请稍候～
   </el-card>
 </template>
@@ -38,6 +39,8 @@ export default defineComponent({
         const resp = await request.get(`/login?code=${code}`);
         //@ts-ignore
         this.$store.commit("login", resp.data.access_token);
+        //@ts-ignore
+        this.$store.dispatch("user");
         this.$router.push({ name: "home" });
       } catch (e) {
         this.error = `登录失败：${e}`;

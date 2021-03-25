@@ -5,7 +5,9 @@
         <router-link to="/">StepByStep</router-link>
         <router-link :to="{ name: 'groups', params: {} }">Groups</router-link>
         <router-link :to="{ name: 'about', params: {} }">About</router-link>
-        <router-link v-if="$store.logged" :to="{ name: 'admin_import', params: {} }">Import</router-link>
+        <router-link v-if="isAdmin" :to="{ path: '/admin', params: {} }"
+          >Admin</router-link
+        >
       </div>
     </el-header>
 
@@ -14,6 +16,24 @@
     </el-main>
   </el-container>
 </template>
+
+<script lang="ts">
+import { defineComponent } from "vue";
+import { mapGetters } from 'vuex';
+
+export default defineComponent({
+  setup() {},
+  created() {
+    this.$store.dispatch("user");
+  },
+  computed: {
+    ...mapGetters([
+      'isAdmin',
+    ])
+  },
+});
+</script>
+
 
 <style>
 a {
