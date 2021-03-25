@@ -10,6 +10,12 @@
           <el-button
             type="text"
             size="small"
+            @click="toStepAdmin(scope.row, scope.$index)"
+            >计划管理</el-button
+          >
+          <el-button
+            type="text"
+            size="small"
             @click="changeGroup(scope.row, scope.$index)"
             >修改</el-button
           >
@@ -111,14 +117,17 @@ export default defineComponent({
     },
     async postChangeGroup() {
       const row = this.groupList[this.selectGroupIdx];
-      const resp = await request.post(`/group/${row.id}`, row);
+      const resp = await request.put(`/group/${row.id}`, row);
       this.dialogFormVisible = false;
     },
     async postNewGroup() {
       const resp = await request.post(`/group`, this.newGroup);
-      this.newGroup.name = '';
-      this.newGroup.code = '';
+      this.newGroup.name = "";
+      this.newGroup.code = "";
       this.dialogNewFormVisible = false;
+    },
+    toStepAdmin(row: any, idx: number) {
+      this.$router.push({path: `/admin/group/${row.id}/step`});
     }
   },
 });

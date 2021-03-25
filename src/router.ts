@@ -9,6 +9,8 @@ import Admin from './views/admin/Admin.vue';
 import AdminHome from './views/admin/Home.vue';
 import AdminImport from './views/admin/Import.vue';
 import AdminGroup from './views/admin/Group.vue';
+import AdminStep from './views/admin/Step.vue';
+import AdminStepUser from './views/admin/StepUser.vue';
 import Login from './views/user/Login.vue';
 import store from './store';
 
@@ -66,10 +68,21 @@ const routes = [
         path: "group",
         name: "admin_group",
         component: AdminGroup,
-        meta: { title: "Group" }
+        meta: { title: "Group" },
       },
       {
-        path: "import",
+        path: "group/:id/step",
+        name: "admin_group_step",
+        component: AdminStep,
+        meta: { title: "Step" },
+      },
+      {
+        path: "group/:group_id/step/:step_id/user",
+        component: AdminStepUser,
+        meta: { title: "StepUser" }
+      },
+      {
+        path: "group/:group_id/step/:step_id/import",
         name: "admin_import",
         component: AdminImport,
         meta: { title: "Import" }
