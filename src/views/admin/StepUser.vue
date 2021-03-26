@@ -115,6 +115,13 @@ export default defineComponent({
             rowspan,
           });
         }
+        if (user.bind_users.length === 0) {
+          this.users.push({
+            id: user.id,
+            class: user.class,
+            nickname: user.nickname,
+          });
+        }
       }
       this.loading = false;
     },
@@ -170,6 +177,7 @@ export default defineComponent({
             );
           } catch (e) {}
         }
+        await this.fetchUsers();
         this.loading = false;
       };
       reader.readAsArrayBuffer(file);

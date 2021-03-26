@@ -7,10 +7,10 @@ import UserDetail from './views/user/Detail.vue';
 import About from "./views/About.vue";
 import Admin from './views/admin/Admin.vue';
 import AdminHome from './views/admin/Home.vue';
-import AdminImport from './views/admin/Import.vue';
 import AdminGroup from './views/admin/Group.vue';
 import AdminStep from './views/admin/Step.vue';
 import AdminStepUser from './views/admin/StepUser.vue';
+import AdminStepProblem from './views/admin/StepProblem.vue';
 import Login from './views/user/Login.vue';
 import store from './store';
 
@@ -82,11 +82,10 @@ const routes = [
         meta: { title: "StepUser" }
       },
       {
-        path: "group/:group_id/step/:step_id/import",
-        name: "admin_import",
-        component: AdminImport,
-        meta: { title: "Import" }
-      },
+        path: "group/:group_id/step/:step_id/problem",
+        component: AdminStepProblem,
+        meta: { title: "StepProblem" }
+      }
     ]
   },
 ];
