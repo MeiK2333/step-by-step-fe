@@ -27,7 +27,7 @@
       </el-table-column>
       <el-table-column prop="nickname" label="Nickname" width="180">
       </el-table-column>
-      <el-table-column prop="problem_id" label="Prob." width="80">
+      <el-table-column prop="problem_id" label="Prob." width="120">
         <template #default="scope">
           <a :href="scope.row.link" target="_blank">
             {{ scope.row.problem_id }}

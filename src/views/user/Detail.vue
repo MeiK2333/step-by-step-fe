@@ -26,6 +26,8 @@
           </router-link>
         </template>
       </el-table-column>
+      <el-table-column prop="class" label="Class" width="180"> </el-table-column>
+      <el-table-column prop="nickname" label="Nickname" width="180"> </el-table-column>
     </el-table>
   </el-card>
 
