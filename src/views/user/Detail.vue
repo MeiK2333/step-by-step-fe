@@ -19,6 +19,13 @@
       style="width: 100%"
     >
       <el-table-column prop="id" label="ID" width="120"> </el-table-column>
+      <el-table-column prop="group" label="Group" width="120">
+        <template #default="scope">
+          <router-link :to="{ name: 'group', params: { id: scope.row.group.id } }">
+            {{ scope.row.group.name }}
+          </router-link>
+        </template>
+      </el-table-column>
       <el-table-column prop="name" label="Name" min-width="180">
         <template #default="scope">
           <router-link :to="{ name: 'set', params: { id: scope.row.id } }">
