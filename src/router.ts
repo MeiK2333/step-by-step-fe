@@ -12,6 +12,7 @@ import AdminStep from './views/admin/Step.vue';
 import AdminStepUser from './views/admin/StepUser.vue';
 import AdminStepProblem from './views/admin/StepProblem.vue';
 import Login from './views/user/Login.vue';
+import SetAnalysis from './views/set/Analysis.vue';
 import store from './store';
 
 const routes = [
@@ -38,6 +39,12 @@ const routes = [
     name: "set",
     component: SetDetail,
     meta: { title: "Set" }
+  },
+  {
+    path: '/set/:id/analysis',
+    name: 'set_analysis',
+    component: SetAnalysis,
+    meta: { title: 'Set - Analysis' }
   },
   {
     path: "/user/:username",

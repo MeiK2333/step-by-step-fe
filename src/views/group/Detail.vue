@@ -13,11 +13,18 @@
           </router-link>
         </template>
       </el-table-column>
-      <el-table-column prop="source" label="Source" width="180">
+      <el-table-column prop="source" label="Source" width="120">
       </el-table-column>
-      <el-table-column prop="userCount" label="Users" width="180">
+      <el-table-column prop="userCount" label="Users" width="120">
       </el-table-column>
-      <el-table-column prop="problemCount" label="Prob." width="180">
+      <el-table-column prop="problemCount" label="Prob." width="120">
+      </el-table-column>
+      <el-table-column prop="" label="Analysis" width="120">
+        <template #default="scope">
+          <router-link :to="{ name: 'set_analysis', params: { id: scope.row.id } }">
+            统计数据
+          </router-link>
+        </template>
       </el-table-column>
     </el-table>
   </el-card>

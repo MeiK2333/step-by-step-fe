@@ -57,13 +57,13 @@
               </router-link>
               <p>
                 {{ user.passed }}
-                / {{ problems.length }}
+                / {{ problemCount }}
               </p>
               <el-progress
                 :text-inside="true"
                 :stroke-width="20"
                 :percentage="
-                  Number(((user.passed / problems.length) * 100).toFixed(2))
+                  Number(((user.passed / problemCount) * 100).toFixed(2))
                 "
                 :color="customColor"
                 style="width: 80%; padding-left: 10%; padding-right: 10%"
@@ -164,6 +164,7 @@ export default defineComponent({
       loading: true,
       id: Number(this.$route.params.id),
       problems,
+      problemCount: 0,
       name: "",
       users,
       tableSync: (event: any) => {},
@@ -236,6 +237,12 @@ export default defineComponent({
       this.loading = true;
       const resp = await request.get(`/step/${this.id}`);
       this.problems = resp.data.problems;
+      // 因为有些计划内有重复的题目，因此总数做去重
+      const problemSet = new Set();
+      for (const problem of this.problems) {
+        problemSet.add(problem.id)
+      }
+      this.problemCount = problemSet.size;
       this.users = resp.data.users;
       // 计算每个人通过的题目数量
       for (const user of this.users) {
