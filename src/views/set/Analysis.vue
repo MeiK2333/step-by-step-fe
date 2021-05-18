@@ -7,6 +7,11 @@
       :default-sort="{ prop: 'passed', order: 'descending' }"
       :row-class-name="tableRowClassName"
     >
+      <el-table-column label="Index" width="120">
+        <template #default="scope">
+          {{ scope.$index + 1 }}
+        </template>
+      </el-table-column>
       <el-table-column prop="class" label="Class" width="180">
       </el-table-column>
       <el-table-column prop="nickname" label="Name" min-width="180">
