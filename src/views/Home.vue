@@ -1,14 +1,15 @@
 <template>
   <el-card class="box-card">
     <template v-if="!logged">
-      您还没登录，<a :href="loginUrl">点击登录</a>
+      您还没登录，<router-link :to="{ name: 'login' }">点击登录</router-link>
     </template>
     <template v-else>
       欢迎你，{{ $store.state.user.username }}
       <router-link
         :to="{ name: 'user', params: { username: $store.state.user.username } }"
         >个人页面</router-link
-      >
+      >，
+      <a @click="$store.commit('logout')">退出</a>
     </template>
   </el-card>
   <el-card class="box-card" style="padding-top: 30px">

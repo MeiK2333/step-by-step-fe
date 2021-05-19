@@ -13,6 +13,7 @@ import AdminStepUser from './views/admin/StepUser.vue';
 import AdminStepProblem from './views/admin/StepProblem.vue';
 import Login from './views/user/Login.vue';
 import SetAnalysis from './views/set/Analysis.vue';
+import Register from './views/user/Register.vue';
 import store from './store';
 
 const routes = [
@@ -57,6 +58,12 @@ const routes = [
     name: 'login',
     component: Login,
     meta: { title: 'Login' }
+  },
+  {
+    path: '/register',
+    name: 'register',
+    component: Register,
+    meta: { title: 'Register' }
   },
   {
     path: "/about",
