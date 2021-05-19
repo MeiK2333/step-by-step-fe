@@ -45,9 +45,7 @@ export default defineComponent({
       if (value.length < 1 || value.length > 1024) {
         return callback(new Error("长度在 1 到 1024 位之间"));
       }
-      console.log(value);
       for (const char of value) {
-        console.log(char);
         if (
           !"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789".includes(
             char

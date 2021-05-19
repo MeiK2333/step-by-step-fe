@@ -21,7 +21,9 @@
       <el-table-column prop="id" label="ID" width="120"> </el-table-column>
       <el-table-column prop="group" label="Group" width="120">
         <template #default="scope">
-          <router-link :to="{ name: 'group', params: { id: scope.row.group.id } }">
+          <router-link
+            :to="{ name: 'group', params: { id: scope.row.group.id } }"
+          >
             {{ scope.row.group.name }}
           </router-link>
         </template>
@@ -33,8 +35,10 @@
           </router-link>
         </template>
       </el-table-column>
-      <el-table-column prop="class" label="Class" width="180"> </el-table-column>
-      <el-table-column prop="nickname" label="Nickname" width="180"> </el-table-column>
+      <el-table-column prop="class" label="Class" width="180">
+      </el-table-column>
+      <el-table-column prop="nickname" label="Nickname" width="180">
+      </el-table-column>
     </el-table>
   </el-card>
 
@@ -56,6 +60,53 @@
         </template>
       </el-table-column>
     </el-table>
+
+    <div
+      style="margin-top: 20px"
+      v-if="$store.state.user.username === username"
+    >
+      <el-button @click="dialogNewFormVisible = true">新增</el-button>
+    </div>
+
+    <el-dialog
+      title="新增账号绑定"
+      v-model="dialogNewFormVisible"
+      @close="$refs['ruleForm'].resetFields()"
+    >
+      <el-form
+        :model="newBindUserForm"
+        status-icon
+        :rules="rules"
+        ref="ruleForm"
+      >
+        <el-form-item label="Source" prop="source">
+          <el-select v-model="newBindUserForm.source">
+            <el-option
+              v-for="item in sources"
+              :key="item"
+              :label="item"
+              :value="item"
+            >
+            </el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="Username" prop="username">
+          <el-input v-model="newBindUserForm.username"></el-input>
+        </el-form-item>
+        <el-form-item label="Password" prop="password">
+          <el-input
+            type="password"
+            v-model="newBindUserForm.password"
+          ></el-input>
+        </el-form-item>
+      </el-form>
+      <template #footer>
+        <span class="dialog-footer">
+          <el-button @click="dialogNewFormVisible = false">取 消</el-button>
+          <el-button type="primary" @click="postNewBindUser">确 定</el-button>
+        </span>
+      </template>
+    </el-dialog>
   </el-card>
 </template>
 
@@ -67,9 +118,21 @@ export default defineComponent({
   name: "UserDetail",
   data() {
     return {
+      sources: ["SDUT", "VJ", "POJ"],
+      rules: {
+        source: [{ trigger: ["blur", "change"], required: true }],
+        username: [{ trigger: ["blur", "change"], required: true }],
+        password: [{ trigger: ["blur", "change"], required: true }],
+      },
+      dialogNewFormVisible: false,
       loading: true,
       username: this.$route.params.username,
       detail: {},
+      newBindUserForm: {
+        source: "SDUT",
+        username: "",
+        password: "",
+      },
     };
   },
   created() {
@@ -82,6 +145,15 @@ export default defineComponent({
       const resp = await request.get(`/user/${this.username}`);
       this.detail = resp.data;
       this.loading = false;
+    },
+    async postNewBindUser() {
+      //@ts-ignore
+      const vaild = await this.$refs["ruleForm"].validate();
+      const resp = await request.post(`/user/bind_user`, {
+        ...this.newBindUserForm,
+      });
+      await this.fetchUserDetail();
+      this.dialogNewFormVisible = false;
     },
   },
 });
