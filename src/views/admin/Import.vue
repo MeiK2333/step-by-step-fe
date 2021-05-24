@@ -1,5 +1,5 @@
 <template>
-  <el-card class="box-card">
+  <card class="box-card">
     <el-alert
       v-for="(row, idx) in error_data"
       :key="idx"
@@ -27,7 +27,7 @@
       <el-button @click="onClickUpload">选择 Excel</el-button>
       <el-button :disabled="data.length === 0" type="primary">上传</el-button>
     </div>
-  </el-card>
+  </card>
   <input
     ref="excel_upload_input"
     @change="handleFile"

@@ -1,5 +1,5 @@
 <template>
-  <el-card class="box-card">
+  <card class="box-card">
     <el-table v-loading="loading" :data="groupList" stripe style="width: 100%">
       <el-table-column prop="id" label="ID" width="120"> </el-table-column>
       <el-table-column prop="code" label="Code" width="180"> </el-table-column>
@@ -34,7 +34,7 @@
     <div style="margin-top: 20px">
       <el-button @click="dialogNewFormVisible = true">新增</el-button>
     </div>
-  </el-card>
+  </card>
 
   <el-dialog title="Edit" v-model="dialogFormVisible" @close="fetchGroups">
     <el-form>

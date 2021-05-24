@@ -1,5 +1,5 @@
 <template>
-  <el-card class="box-card">
+  <card class="box-card">
     <h1 id="stepbystep">StepByStep</h1>
     <p>SDUT 训练计划系统</p>
     <h2 id="-">常见问题</h2>
@@ -25,14 +25,5 @@
       如果想要系统自动更新你的提交记录，那么你需要加入我们系统所在的
       <a href="https://vjudge.net/group/sdutsbs">sdutsbs group</a> 。
     </p>
-    <h3 id="-">为什么我无法登录</h3>
-    <p>
-      目前系统使用的是 GitHub oauth 第三方登录，但由于与 GitHub
-      网络连接不稳定，登录失败率较高。目前我们正在开发其他登录方式。
-    </p>
-    <h3 id="-">为什么我登录后什么也不能做</h3>
-    <p>
-      目前个人账号管理的功能还没有完全实现，只有管理员账号可以登录管理后台。
-    </p>
-  </el-card>
+  </card>
 </template>

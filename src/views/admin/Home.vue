@@ -1,6 +1,6 @@
 <template>
-  <el-card class="box-card"
+  <card class="box-card"
     >这里什么都没有，但你可以去
     <router-link :to="{ name: 'admin_group' }">管理 Group</router-link>
-  </el-card>
+  </card>
 </template>

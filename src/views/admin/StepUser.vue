@@ -1,5 +1,5 @@
 <template>
-  <el-card class="box-card">
+  <card class="box-card">
     <el-table
       :span-method="objectSpanMethod"
       v-loading="loading"
@@ -33,7 +33,7 @@
       <el-button @click="dialogNewFormVisible = true">新增</el-button>
       <el-button @click="onClickUpload">导入 Excel</el-button>
     </div>
-  </el-card>
+  </card>
 
   <el-dialog title="New" v-model="dialogNewFormVisible" @close="fetchUsers">
     <el-form>

@@ -1,5 +1,5 @@
 <template>
-  <el-card class="box-card">
+  <card class="box-card">
     <el-table v-loading="loading" :data="problems" stripe style="width: 100%">
       <el-table-column prop="project" label="Project" min-width="180">
       </el-table-column>
@@ -20,7 +20,7 @@
     <div style="margin-top: 20px">
       <el-button @click="onClickUpload">导入 Excel</el-button>
     </div>
-  </el-card>
+  </card>
   <input
     ref="excel_upload_input"
     @change="handleFile"

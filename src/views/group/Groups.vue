@@ -1,5 +1,5 @@
 <template>
-  <el-card class="box-card">
+  <card class="box-card">
     <el-table v-loading="loading" :data="groupList" stripe style="width: 100%">
       <el-table-column prop="id" label="ID" width="120"> </el-table-column>
       <el-table-column prop="code" label="Code" width="180"> </el-table-column>
@@ -11,7 +11,7 @@
         </template>
       </el-table-column>
     </el-table>
-  </el-card>
+  </card>
 </template>
 
 <script lang="ts">

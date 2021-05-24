@@ -1,5 +1,5 @@
 <template>
-  <el-card class="box-card">
+  <card class="box-card">
     <el-table
       :data="users"
       style="width: 100%"
@@ -30,7 +30,7 @@
         </template>
       </el-table-column>
     </el-table>
-  </el-card>
+  </card>
 </template>
 
 <script lang="ts">

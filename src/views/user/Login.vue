@@ -1,5 +1,5 @@
 <template>
-  <el-card class="box-card">
+  <card class="box-card">
     <el-form
       :model="ruleForm"
       status-icon
@@ -17,7 +17,7 @@
         <el-button @click="$router.push({ name: 'register' })">注册</el-button>
       </el-form-item>
     </el-form>
-  </el-card>
+  </card>
 </template>
 <script lang="ts">
 import { defineComponent } from "vue";

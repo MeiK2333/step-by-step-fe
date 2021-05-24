@@ -1,9 +1,9 @@
 <template>
-  <el-card class="box-card" v-loading="loading">
+  <card class="box-card" v-loading="loading">
     <h1>Hello {{ detail.name }}</h1>
-  </el-card>
+  </card>
 
-  <el-card class="box-card" style="padding-top: 30px">
+  <card class="box-card" style="padding-top: 30px">
     <el-table v-loading="set_loading" :data="set" stripe style="width: 100%">
       <el-table-column prop="id" label="ID" width="120"> </el-table-column>
       <el-table-column prop="name" label="Name" min-width="180">
@@ -27,7 +27,7 @@
         </template>
       </el-table-column>
     </el-table>
-  </el-card>
+  </card>
 </template>
 
 <script lang="ts">

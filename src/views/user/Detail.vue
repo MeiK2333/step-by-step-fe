@@ -1,5 +1,5 @@
 <template>
-  <el-card class="box-card profile" v-loading="loading">
+  <card>
     <h2>{{ detail.username }}</h2>
     <el-alert
       v-if="detail.robot"
@@ -8,9 +8,17 @@
       effect="dark"
     >
     </el-alert>
-  </el-card>
+  </card>
 
-  <el-card style="padding-top: 30px">
+  <card style="margin-top: 30px">
+    <event-graph :username="username"></event-graph>
+  </card>
+
+  <card style="margin-top: 30px">
+    <recent-solutions :username="username" :size="10"></recent-solutions>
+  </card>
+
+  <card style="padding-top: 30px">
     <h4>参加的计划</h4>
     <el-table
       v-loading="loading"
@@ -40,9 +48,9 @@
       <el-table-column prop="nickname" label="Nickname" width="180">
       </el-table-column>
     </el-table>
-  </el-card>
+  </card>
 
-  <el-card style="padding-top: 30px">
+  <card style="padding-top: 30px">
     <h4>绑定的账号</h4>
     <el-table
       v-loading="loading"
@@ -107,15 +115,18 @@
         </span>
       </template>
     </el-dialog>
-  </el-card>
+  </card>
 </template>
 
 <script lang="ts">
 import { defineComponent } from "vue";
 import request from "../../request";
+import RecentSolutions from "../../components/RecentSolutions.vue";
+import EventGraph from "../../components/EventGraph.vue";
 
 export default defineComponent({
   name: "UserDetail",
+  components: { RecentSolutions, EventGraph },
   data() {
     return {
       sources: ["SDUT", "VJ", "POJ"],
@@ -133,6 +144,7 @@ export default defineComponent({
         username: "",
         password: "",
       },
+      solutions: [],
     };
   },
   created() {

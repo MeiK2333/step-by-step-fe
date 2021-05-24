@@ -1,5 +1,5 @@
 <template>
-  <el-card class="box-card">
+  <card class="box-card">
     <el-form :model="ruleForm" status-icon :rules="rules" ref="ruleForm">
       <el-form-item label="账号" prop="username">
         <el-input
@@ -29,7 +29,7 @@
         >
       </el-form-item>
     </el-form>
-  </el-card>
+  </card>
 </template>
 <script lang="ts">
 import { defineComponent } from "vue";
