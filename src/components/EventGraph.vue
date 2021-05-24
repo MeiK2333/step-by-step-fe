@@ -1,12 +1,20 @@
 <template>
-  <div class="contributions">
-    <h4 v-if="display.year === -1">
-      {{ display.count }} solutions in the last year
+  <div class="contributions" style="width: 828px">
+    <h4>
+      {{ display.count }} solutions in
+      <select style="font-size: 16px" @change="yearChange($event)">
+        <option value="recent">the last year</option>
+        <option v-for="year of years" :key="year">{{ year }}</option>
+      </select>
     </h4>
-    <h4 v-else>{{ display.count }} solutions in {{ display.year }}</h4>
     <div class="calendar-graph">
-      <svg width="828" height="128" class="js-calendar-graph-svg">
-        <g transform="translate(10, 20)" id="graph-svg">
+      <div :style="tipStyle" class="svg-tip" ref="tip">
+        <strong v-if="tipData.count === 1">1 post</strong
+        ><strong v-else>{{ tipData.count }} posts</strong> on
+        {{ dateFmt(tipData.date) }}
+      </div>
+      <svg width="980" height="128" class="js-calendar-graph-svg">
+        <g class="svg-g-transform" id="graph-svg">
           <g
             v-for="(_, i) of 53"
             :key="i"
@@ -23,8 +31,19 @@
               :x="16 - i"
               :y="item.dayOfWeek * 15"
               :fill="rectColor(item.count)"
+              @mouseover="alertRect($event, item)"
+              @mouseleave="leaveRect()"
             ></rect>
           </g>
+          <text
+            :x="16 + item.pos * 15"
+            y="-9"
+            class="month"
+            v-for="(item, idx) of monthPos"
+            :key="idx"
+          >
+            {{ item.name }}
+          </text>
         </g>
       </svg>
     </div>
@@ -50,20 +69,6 @@ const months = [
   "Nov",
   "Dec",
 ];
-const monthsFull = [
-  "January",
-  "February",
-  "March",
-  "April",
-  "May",
-  "June",
-  "July",
-  "August",
-  "September",
-  "October",
-  "November",
-  "December",
-];
 
 interface GraphItem {
   dayOfWeek: number;
@@ -72,13 +77,31 @@ interface GraphItem {
   date: Date;
 }
 
+function getCoords(elem: Element) {
+  var box = elem.getBoundingClientRect();
+
+  var body = document.body;
+  var docEl = document.documentElement;
+
+  var scrollTop = window.pageYOffset || docEl.scrollTop || body.scrollTop;
+  var scrollLeft = window.pageXOffset || docEl.scrollLeft || body.scrollLeft;
+
+  var clientTop = docEl.clientTop || body.clientTop || 0;
+  var clientLeft = docEl.clientLeft || body.clientLeft || 0;
+
+  var top = box.top + scrollTop - clientTop;
+  var left = box.left + scrollLeft - clientLeft;
+
+  return { top, left, width: box.width, height: box.height };
+}
+
 export default defineComponent({
   props: ["username"],
   data() {
     const events: any[] = [];
     const years: any[] = [];
     const eventDict: { [name: string]: number } = {};
-    const monthPos: number[] = [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1];
+    const monthPos: any[] = [];
     const data: GraphItem[] = [];
     return {
       loading: false,
@@ -91,6 +114,15 @@ export default defineComponent({
         count: 0,
         year: -1,
         data,
+      },
+      tipStyle: {
+        display: "none",
+        top: "0px",
+        left: "0px",
+      },
+      tipData: {
+        count: 0,
+        date: new Date(),
       },
     };
   },
@@ -140,6 +172,15 @@ export default defineComponent({
       endDay.setHours(23, 59, 59, 99);
       let weekOfYear = -1;
       this.display.count = 0;
+      this.display.data = [];
+      let mpos = 0;
+      let mt = startDay.getMonth();
+      this.monthPos = [
+        {
+          pos: 0,
+          name: this.monthName(mt),
+        },
+      ];
       // TODO: 月份显示、鼠标悬浮显示格子具体信息等
       for (
         let current = startDay;
@@ -149,7 +190,13 @@ export default defineComponent({
         const dayOfWeek = current.getDay();
         // 一周从周日开始
         if (dayOfWeek === 0) {
+          // 如果发生了月份切换，则将其添加到 pos 中
+          if (current.getMonth() != mt) {
+            mt = current.getMonth();
+            this.monthPos.push({ pos: mpos, name: this.monthName(mt) });
+          }
           weekOfYear += 1;
+          mpos += 1;
         }
         const count = this.eventDict[moment(current).format("YYYY-MM-DD")] || 0;
         this.display.count += count;
@@ -164,16 +211,42 @@ export default defineComponent({
     rectColor(count: number) {
       if (count === 0) {
         return "#ebedf0";
-      } else if (count === 1) {
+      } else if (count < 3) {
         return "#9be9a8";
-      } else if (count === 2) {
+      } else if (count < 8) {
         return "#40c463";
-      } else if (count === 3) {
+      } else if (count < 15) {
         return "#30a14e";
       } else {
         return "#216e39";
       }
     },
+    alertRect(event: Event, rect: GraphItem) {
+      this.tipData.count = rect.count;
+      this.tipData.date = rect.date;
+      if (!event.target) {
+        return;
+      }
+      const coords = getCoords(event.target as Element);
+      this.tipStyle.top = `${coords.top - 50}px`;
+      this.tipStyle.left = `${coords.left + coords.width / 2}px`;
+      this.tipStyle.display = "block";
+    },
+    dateFmt(date: Date) {
+      return moment(date).format("MMM D, YYYY");
+    },
+    leaveRect() {
+      this.tipStyle.display = "none";
+    },
+    yearChange(event: Event) {
+      //@ts-ignore
+      const value = event.target.value;
+      if (value === 'recent') {
+        this.displayYear();
+      } else {
+        this.displayYear(Number(value));
+      }
+    }
   },
 });
 </script>
@@ -181,5 +254,41 @@ export default defineComponent({
 <style scoped>
 .calendar-graph {
   font-size: 10px;
+}
+.svg-tip {
+  position: absolute;
+  z-index: 99999;
+  padding: 10px;
+  font-size: 12px;
+  color: #959da5;
+  text-align: center;
+  background: rgba(0, 0, 0, 0.8);
+  border-radius: 6px;
+  white-space: nowrap;
+  transform: translateX(-50%);
+}
+.svg-tip:after {
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  width: 5px;
+  height: 5px;
+  box-sizing: border-box;
+  margin: 0 0 0 -5px;
+  content: " ";
+  border: 5px solid transparent;
+  border-top-color: rgba(0, 0, 0, 0.8);
+}
+.svg-tip strong {
+  color: #dfe2e5;
+  font-weight: 600;
+}
+.svg-g-transform {
+  transform: translate(0px, 20px);
+}
+@media (min-width: 1020px) {
+  .svg-g-transform {
+    transform: translate(75px, 20px);
+  }
 }
 </style>
