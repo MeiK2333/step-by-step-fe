@@ -16,6 +16,12 @@
   <div style="height: 30px"></div>
 
   <card>
+    <recent-contests :size="20"></recent-contests>
+  </card>
+
+  <div style="height: 30px"></div>
+
+  <card>
     <recent-solutions :size="20"></recent-solutions>
   </card>
 </template>
@@ -24,10 +30,11 @@
 import { defineComponent } from "vue";
 import { mapGetters } from "vuex";
 import RecentSolutions from "../components/RecentSolutions.vue";
+import RecentContests from "../components/RecentContests.vue";
 
 export default defineComponent({
   name: "Home",
-  components: { RecentSolutions },
+  components: { RecentSolutions, RecentContests },
   data() {
     return {
       loading: true,
