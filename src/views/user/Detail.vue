@@ -129,7 +129,7 @@ export default defineComponent({
   components: { RecentSolutions, EventGraph },
   data() {
     return {
-      sources: ["SDUT", "VJ", "POJ"],
+      sources: ["SDUT", "VJ", "POJ", "CF"],
       rules: {
         source: [{ trigger: ["blur", "change"], required: true }],
         username: [{ trigger: ["blur", "change"], required: true }],
