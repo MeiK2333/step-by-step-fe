@@ -62,7 +62,7 @@ export default defineComponent({
     async fetchSet() {
       this.set_loading = true;
       const resp = await request.get(`/group/${this.id}/steps`);
-      this.set = resp.data;
+      this.set = resp.data.reverse();
       this.set_loading = false;
     },
   },

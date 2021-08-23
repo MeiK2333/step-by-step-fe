@@ -1,5 +1,6 @@
 <template>
   <card class="box-card">
+    <h3>{{ name }}</h3>
     <el-table
       :data="users"
       style="width: 100%"
@@ -12,13 +13,13 @@
           {{ scope.$index + 1 }}
         </template>
       </el-table-column>
-      <el-table-column prop="class" label="Class" width="180">
+      <el-table-column prop="class" label="Class" width="140">
       </el-table-column>
-      <el-table-column prop="nickname" label="Name" min-width="180">
+      <el-table-column prop="nickname" label="Name" min-width="120">
       </el-table-column>
       <el-table-column prop="passed" sortable label="Passed" width="120">
       </el-table-column>
-      <el-table-column prop="dayly" sortable label="Dayly" width="120">
+      <el-table-column prop="daily" sortable label="Daily" width="120">
       </el-table-column>
       <el-table-column prop="weekly" sortable label="Weekly" width="120">
       </el-table-column>
@@ -30,12 +31,16 @@
         </template>
       </el-table-column>
     </el-table>
+    <el-row style="margin-top: 30px;">
+      <el-button @click="downloadExcel">下载 Excel</el-button>
+    </el-row>
   </card>
 </template>
 
 <script lang="ts">
 import { defineComponent } from "vue";
 import request from "../../request";
+import XLSX from "xlsx";
 
 export default defineComponent({
   data() {
@@ -56,6 +61,28 @@ export default defineComponent({
     this.fetchSet();
   },
   methods: {
+    downloadExcel() {
+      const workbook = XLSX.utils.book_new();
+      const ws = XLSX.utils.json_to_sheet([]);
+      XLSX.utils.book_append_sheet(workbook, ws, "A1");
+      const table = [];
+      for (const user of this.users) {
+        table.push({
+          Class: user.class,
+          Name: user.nickname,
+          Passed: user.passed,
+          Daily: user.daily,
+          Weekly: user.weekly,
+          Monthly: user.monthly,
+          Process: `${user.passed} / ${this.problemCount}`
+        });
+      }
+      table.sort(function (a, b) {
+        return b.Passed - a.Passed
+      })
+      XLSX.utils.sheet_add_json(ws, table);
+      XLSX.writeFile(workbook, this.name + ".xlsx");
+    },
     async fetchSet() {
       this.loading = true;
       const resp = await request.get(`/step/${this.id}`);
@@ -71,7 +98,7 @@ export default defineComponent({
         user.passed = Object.values(user.solutions).filter(
           (solution: any) => solution.result === "Accepted"
         ).length;
-        user.dayly = Object.values(user.solutions).filter(
+        user.daily = Object.values(user.solutions).filter(
           (solution: any) =>
             solution.result === "Accepted" &&
             new Date().getTime() - new Date(solution.date).getTime() <
