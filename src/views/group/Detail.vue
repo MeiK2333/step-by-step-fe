@@ -6,18 +6,18 @@
   <card class="box-card" style="padding-top: 30px">
     <el-table v-loading="set_loading" :data="set" stripe style="width: 100%">
       <el-table-column prop="id" label="ID" width="120"> </el-table-column>
-      <el-table-column prop="name" label="Name" min-width="180">
+      <el-table-column prop="name" label="Name" min-width="240">
         <template #default="scope">
           <router-link :to="{ name: 'set', params: { id: scope.row.id } }">
             {{ scope.row.name }}
           </router-link>
         </template>
       </el-table-column>
-      <el-table-column prop="source" label="Source" width="120">
+      <el-table-column prop="source" label="Source" width="80">
       </el-table-column>
-      <el-table-column prop="userCount" label="Users" width="120">
+      <el-table-column prop="userCount" label="Users" width="80">
       </el-table-column>
-      <el-table-column prop="problemCount" label="Prob." width="120">
+      <el-table-column prop="problemCount" label="Prob." width="80">
       </el-table-column>
       <el-table-column prop="" label="Analysis" width="120">
         <template #default="scope">
