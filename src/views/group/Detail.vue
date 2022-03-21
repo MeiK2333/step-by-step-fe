@@ -62,7 +62,8 @@ export default defineComponent({
     async fetchSet() {
       this.set_loading = true;
       const resp = await request.get(`/group/${this.id}/steps`);
-      this.set = resp.data.reverse();
+      this.set = resp.data;
+      this.set.sort((a, b) => b['id'] - a['id'])
       this.set_loading = false;
     },
   },
